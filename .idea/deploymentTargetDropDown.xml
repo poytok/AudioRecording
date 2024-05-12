@@ -2,6 +2,12 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="SelectQuestionCheckboxPreview">
+        <State />
+      </entry>
+      <entry key="SelectQuestionPreviewScreen">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
