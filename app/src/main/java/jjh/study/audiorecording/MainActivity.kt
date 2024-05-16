@@ -27,7 +27,3 @@ class MainActivity : ComponentActivity() {
 
 
 }
-
-fun main() {
-
-}
