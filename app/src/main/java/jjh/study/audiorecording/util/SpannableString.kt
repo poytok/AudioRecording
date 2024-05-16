@@ -3,6 +3,7 @@ package jjh.study.audiorecording.util
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 
@@ -12,6 +13,7 @@ fun SpannableString(
   fullText: String,
   spannableText: String,
   style: SpanStyle,
+  textStyle: TextStyle,
 ) {
   val startIndex = fullText.indexOf(spannableText)
   if (startIndex == -1)
@@ -30,5 +32,37 @@ fun SpannableString(
     }
   }
 
-  Text(text = annotatedString)
+  Text(
+    text = annotatedString,
+    style = textStyle,
+  )
+}
+
+@Composable
+fun SpannableString(
+  fullText: String,
+  spannableStartIndex: Int,
+  spannableEndIndex: Int,
+  style: SpanStyle,
+  textStyle: TextStyle,
+) {
+
+  val startString = fullText.substring(0, spannableStartIndex)
+  val spannableText = fullText.substring(spannableStartIndex, spannableEndIndex)
+  val appendString = fullText.substring(spannableEndIndex - spannableStartIndex)
+
+  val annotatedString = buildAnnotatedString {
+    append(startString)
+    withStyle(style = style) {
+      append(spannableText)
+    }
+    if (fullText.length >= spannableEndIndex) {
+      append(appendString)
+    }
+  }
+
+  Text(
+    text = annotatedString,
+    style = textStyle,
+  )
 }

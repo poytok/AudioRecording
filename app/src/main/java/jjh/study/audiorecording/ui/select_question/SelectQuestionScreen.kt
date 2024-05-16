@@ -19,16 +19,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import jjh.study.audiorecording.MainViewModel
 import jjh.study.audiorecording.R
 import jjh.study.audiorecording.util.BaseButton
+import jjh.study.audiorecording.util.SpannableString
 
 
 @Composable
@@ -67,21 +66,18 @@ fun SelectQuestionScreen(
 
 @Composable
 fun SelectQuestionTopText() {
-  Text(
+  val textStyle = TextStyle(
+    letterSpacing = (-0.5).sp,
+    lineHeight = 35.84.sp,
     fontSize = 28.sp,
     fontStyle = FontStyle(R.font.spoqa_han_sans_neo_medium),
-    style = TextStyle(
-      letterSpacing = (-0.5).sp,
-      lineHeight = 35.84.sp,
-    ),
-    text = buildAnnotatedString {
-      append("어떤 ")
-      withStyle(style = SpanStyle(color = Color(0xff0064F2), fontWeight = FontWeight.W700)) {
-        append("질문")
-      }
-      append("을\n")
-      append("연습해 볼까요 ?")
-    }
+  )
+
+  SpannableString(
+    fullText = "어떤 질문을\n연습해 볼까요?",
+    spannableText = "질문",
+    style = SpanStyle(color = Color(0xff0064F2), fontWeight = FontWeight.W700),
+    textStyle = textStyle,
   )
 }
 
