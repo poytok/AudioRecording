@@ -58,9 +58,7 @@ fun SelectQuestionScreen(
     BaseButton(
       modifier = Modifier.padding(vertical = 16.dp),
       text = "연습하러가기"
-    ) {
-
-    }
+    ) {/* TODO: OnClick */ }
   }
 }
 
