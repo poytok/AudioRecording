@@ -12,7 +12,7 @@ android {
 
   defaultConfig {
     applicationId = "jjh.study.audiorecording"
-    minSdk = 24
+    minSdk = 29
     targetSdk = 34
     versionCode = 1
     versionName = "1.0"
@@ -67,6 +67,10 @@ dependencies {
 
   // navigation
   implementation(libs.androidx.navigation.compose)
+
+  // ONNX
+  implementation (libs.onnxruntime.mobile)  // mobile package
+
 
 
 
