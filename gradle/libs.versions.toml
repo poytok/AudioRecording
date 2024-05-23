@@ -1,5 +1,7 @@
 [versions]
 agp = "8.3.2"
+converterGson = "2.9.0"
+gson = "2.10.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.0"
 junit = "4.13.2"
@@ -10,13 +12,22 @@ activityCompose = "1.9.0"
 composeBom = "2023.08.00"
 hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
+logger = "2.2.0"
+loggingInterceptor = "4.10.0"
 navigationCompose = "2.7.7"
+okhttp = "4.12.0"
 onnxruntimeMobile = "latest.release"
+retrofit = "2.9.0"
+appcompat = "1.6.1"
+material = "1.12.0"
+jetbrainsKotlinJvm = "1.9.0"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -33,10 +44,18 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+logger = { module = "com.orhanobut:logger", version.ref = "logger" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 onnxruntime-mobile = { module = "com.microsoft.onnxruntime:onnxruntime-mobile", version.ref = "onnxruntimeMobile" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 googleDaggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

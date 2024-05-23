@@ -24,8 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import jjh.study.audiorecording.MainViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import jjh.study.audiorecording.R
+import jjh.study.audiorecording.ui.main.MainViewModel
 import jjh.study.audiorecording.util.BaseButton
 import jjh.study.audiorecording.util.SpannableString
 
@@ -33,7 +34,7 @@ import jjh.study.audiorecording.util.SpannableString
 @Composable
 fun SelectQuestionScreen(
   modifier: Modifier = Modifier,
-  mainViewModel: MainViewModel = MainViewModel(),
+  mainViewModel: MainViewModel = viewModel(),
 ) {
   val state = mainViewModel.state
   Column(

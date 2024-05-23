@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "AudioRecording"
 include(":app")
- 
+include(":data")
+include(":domain")
