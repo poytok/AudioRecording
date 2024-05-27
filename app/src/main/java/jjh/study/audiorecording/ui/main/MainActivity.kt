@@ -13,7 +13,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import jjh.study.audiorecording.ui.theme.AudioRecordingTheme
-import jjh.study.audiorecording.util.FROnnxMobileNet
+import jjh.study.audiorecording.util.VoiceActivityDetection
+import java.nio.FloatBuffer
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -31,7 +32,13 @@ class MainActivity : ComponentActivity() {
 //    mainViewModel.state
 
     val bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
-    FROnnxMobileNet(this)
+//    FROnnxMobileNet(this)
+
+    val byteArray = ByteArray(1024) { 0 }
+
+    val data = VoiceActivityDetection(this, byteArray)
+
+    val ddd = data.run(FloatBuffer.allocate(1024))
 
 
     setContent {

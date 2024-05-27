@@ -76,6 +76,8 @@ dependencies {
 
   // ONNX
   implementation (libs.onnxruntime.android)
+  implementation ("com.microsoft.onnxruntime:onnxruntime-extensions-android:latest.release")
+
 
   // Retrofit
   implementation(libs.retrofit)

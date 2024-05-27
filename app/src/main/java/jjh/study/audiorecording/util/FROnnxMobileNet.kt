@@ -28,7 +28,6 @@ class FROnnxMobileNet(private val context: Context) {
     4. ${ortSession?.numInputs}
     """.trimIndent()
     )
-//    ortSession?.run()
   }
 
   private fun createOrtSession(): OrtSession? {
