@@ -167,23 +167,30 @@ fun TimerCircle(
 @Composable
 fun GradientCircle(
   modifier: Modifier = Modifier,
-  brush: Brush,
+  stroke: Stroke = Stroke(width = 12f),
+  backgroundColor: Color = Color(0x4DB7C5C8),
+  gradientBrush: Brush,
+  gradientStartAngle: Float = 270f,
   totalProgress: Float,
   progress: Float,
 ) {
   Canvas(
     modifier = modifier.size(240.dp),
     onDraw = {
+
+      // 배경
       drawCircle(
-        color = Color(0x4DB7C5C8),
-        style = Stroke(width = 12f),
+        color = backgroundColor,
+        style = stroke,
       )
+
+      // 그라데이션
       drawArc(
-        brush,
-        startAngle = 270f,
+        brush = gradientBrush,
+        startAngle = gradientStartAngle,
         sweepAngle = progress * (360 / totalProgress),
         useCenter = false,
-        style = Stroke(12f),
+        style = stroke,
       )
     }
   )
@@ -197,7 +204,7 @@ private fun GradientCirclePreview() {
 
   GradientCircle(
     modifier = Modifier.padding(30.dp),
-    brush = Brush.horizontalGradient(listOf(Color(0xff0064F2), Color(0xffF496BD))),
+    gradientBrush = Brush.horizontalGradient(listOf(Color(0xff0064F2), Color(0xffF496BD))),
     totalProgress = totalProgress,
     progress = progress,
   )

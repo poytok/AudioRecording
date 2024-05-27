@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">AudioRecording</string>
+  <string name="interview_question">면접질문</string>
 </resources>
