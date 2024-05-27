@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import jjh.study.audiorecording.ui.theme.AudioRecordingTheme
+import jjh.study.audiorecording.util.FROnnxMobileNet
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -27,28 +28,10 @@ class MainActivity : ComponentActivity() {
     val channelConfig = AudioFormat.CHANNEL_IN_MONO
     val audioFormat = AudioFormat.ENCODING_PCM_16BIT
 
-    mainViewModel.state
+//    mainViewModel.state
 
     val bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
-
-//    audioRecord =
-//      AudioRecord.Builder()
-//        .setAudioSource(AudioSource.VOICE_RECOGNITION)
-//        .setAudioFormat(
-//          AudioFormat.Builder()
-//            .setSampleRate(sampleRate)
-//            .setChannelMask(AudioFormat.CHANNEL_IN_MONO)
-//            .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-//            .build()
-//        ).build()
-
-//    AudioRecord(
-//      AudioSource.MIC,
-//      sampleRate,
-//      channelConfig,
-//      audioFormat,
-//      bufferSize,
-//    )
+    FROnnxMobileNet(this)
 
 
     setContent {
@@ -63,6 +46,5 @@ class MainActivity : ComponentActivity() {
       }
     }
   }
-
 
 }

@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jjh.study.audiorecording.remote.RetrofitService
+import jjh.data.remote.RetrofitService
 import jjh.study.audiorecording.ui.select_question.QuestionModel
 import jjh.study.audiorecording.ui.select_question.questionList
 import kotlinx.coroutines.launch

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-  namespace = "jjh.study.audiorecording"
+  namespace = "jjh.data"
   compileSdk = 34
 
   defaultConfig {

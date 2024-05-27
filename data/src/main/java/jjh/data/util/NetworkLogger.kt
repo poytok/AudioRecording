@@ -1,4 +1,4 @@
-package jjh.study.audiorecording.util
+package jjh.data.util
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser

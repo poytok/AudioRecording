@@ -1,10 +1,10 @@
-package jjh.study.audiorecording.remote
+package jjh.data.remote
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jjh.study.audiorecording.util.NetworkLogger
+import jjh.data.util.NetworkLogger
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

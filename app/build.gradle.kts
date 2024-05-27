@@ -75,7 +75,7 @@ dependencies {
   implementation(libs.androidx.navigation.compose)
 
   // ONNX
-  implementation(libs.onnxruntime.mobile)  // mobile package
+  implementation (libs.onnxruntime.android)
 
   // Retrofit
   implementation(libs.retrofit)
