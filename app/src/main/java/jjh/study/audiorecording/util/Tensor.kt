@@ -5,9 +5,6 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtLoggingLevel
 import ai.onnxruntime.OrtSession
-import ai.onnxruntime.extensions.OrtxPackage
-import android.content.Context
-import jjh.study.audiorecording.R
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 import java.nio.LongBuffer
@@ -32,8 +29,7 @@ private fun tensorShape(vararg dims: Long) = longArrayOf(*dims)
 
 
 class VoiceActivityDetection(
-  private val context: Context,
-  private val modelBytes: ByteArray
+  modelBytes: ByteArray
 ) : AutoCloseable {
   private val session: OrtSession
   private val baseInputs: Map<String, OnnxTensor>
@@ -45,36 +41,10 @@ class VoiceActivityDetection(
 
   init {
     val sessionOptions = OrtSession.SessionOptions()
-    sessionOptions.registerCustomOpLibrary(OrtxPackage.getLibraryPath())
-    session = createOrtSession() // env.createSession(modelBytes, sessionOptions)
+//    sessionOptions.registerCustomOpLibrary(OrtxPackage.getLibraryPath())
+    session = env.createSession(modelBytes, sessionOptions) // createOrtSession()
 
-    val samplingRate = 8000L
-    val windowLength = 64 * (samplingRate / 1000)
-//    val windowLength: Long = 0.064 * samplingRate
-
-    baseInputs = mapOf(
-      "length" to createLongTensor(env, longArrayOf(windowLength), tensorShape(1)).apply {
-      }
-    )
-  }
-
-  private fun createOrtSession(): OrtSession {
-    val so = OrtSession.SessionOptions()
-    so.use {
-      // Set to use 2 intraOp threads for CPU EP
-      so.setIntraOpNumThreads(2)
-
-      if (enableNNAPI)
-        so.addNnapi()
-
-//      return env.createSession(ByteArray(1024) { 0 }, so)
-      return env.createSession(readModel(), so)
-    }
-  }
-
-  private fun readModel(): ByteArray {
-    val res = context.resources
-    return res.openRawResource(R.raw.marble_vad_8k_v3).readBytes()
+    baseInputs = mapOf("length" to createLongTensor(env, longArrayOf(WINDOW_LENGTH), tensorShape(1)))
   }
 
 
@@ -83,11 +53,7 @@ class VoiceActivityDetection(
     val inputs = mutableMapOf<String, OnnxTensor>()
     baseInputs.toMap(inputs)
 
-    val floatAudioTensor = OnnxTensor.createTensor(
-      env,
-      floatAudioData,
-      tensorShape(1, floatAudioData.array().size.toLong()) // floatAudioData.size == windowLength
-    )
+    val floatAudioTensor = OnnxTensor.createTensor(env, floatAudioData, tensorShape(1, 512))
     inputs["wav"] = floatAudioTensor
 
     // Run inference
@@ -96,7 +62,7 @@ class VoiceActivityDetection(
     // Parse outputs
     val speechScore = outputs.use {
       @Suppress("UNCHECKED_CAST")
-      (outputs[0].value as Array<Array<Float>>)[0][0] // 내일 해야할거 얘 타입 변경 관련해서 어떻게 할건지
+      (it[1].value as Array<FloatArray>)[0][0]
     }
 
     return speechScore
@@ -108,4 +74,26 @@ class VoiceActivityDetection(
     }
     session.close()
   }
+
+  companion object {
+
+
+    private const val SAMPLING_RATE = 8000L
+    private const val WINDOW_LENGTH = 64 * (SAMPLING_RATE / 1000)
+//    val windowLength: Long = 0.064 * samplingRate
+
+  }
+
+//  private fun createOrtSession(): OrtSession {
+//    val so = OrtSession.SessionOptions()
+//    so.use {
+//      // Set to use 2 intraOp threads for CPU EP
+//      so.setIntraOpNumThreads(2)
+//
+//      if (enableNNAPI)
+//        so.addNnapi()
+//
+//      return env.createSession(modelBytes, so)
+//    }
+//  }
 }
