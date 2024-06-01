@@ -1,10 +1,13 @@
-package jjh.study.audiorecording.util
+package jjh.study.audiorecording.tensor
 
 
 import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtLoggingLevel
 import ai.onnxruntime.OrtSession
+import com.orhanobut.logger.Logger
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 import java.nio.LongBuffer
@@ -28,13 +31,42 @@ private fun createFloatTensor(
 private fun tensorShape(vararg dims: Long) = longArrayOf(*dims)
 
 
+private fun getShortArray(byteArray: ByteArray): MutableList<FloatArray> {
+  // 한 번에 읽을 바이트 수
+  val bufferSize = 1024
+
+  val floatArrayList = mutableListOf<FloatArray>()
+
+  val byteBuffer = ByteBuffer.wrap(byteArray)
+  while (byteBuffer.hasRemaining()) {
+    val buffer = if (byteBuffer.remaining() >= bufferSize) {
+      ByteArray(bufferSize)
+    } else {
+      break
+      // ByteArray(byteBuffer.remaining())
+    }
+    byteBuffer.get(buffer)
+
+    val shortArray = ShortArray(buffer.size / 2)
+    val shortBuffer = ByteBuffer.wrap(buffer)
+    shortBuffer.order(ByteOrder.LITTLE_ENDIAN)
+    for (i in shortArray.indices) {
+      shortArray[i] = shortBuffer.short
+    }
+
+    // Short 배열 리스트에 추가
+
+    floatArrayList.add(FloatArray(shortArray.size) { shortArray[it].toFloat() / 32768 })
+  }
+
+  return floatArrayList
+}
+
 class VoiceActivityDetection(
-  modelBytes: ByteArray
+  modelBytes: ByteArray,
 ) : AutoCloseable {
   private val session: OrtSession
   private val baseInputs: Map<String, OnnxTensor>
-
-  private var enableNNAPI: Boolean = false
 
   // Load ONNX model
   private val env: OrtEnvironment = OrtEnvironment.getEnvironment(OrtLoggingLevel.ORT_LOGGING_LEVEL_FATAL)
@@ -48,7 +80,7 @@ class VoiceActivityDetection(
   }
 
 
-  fun run(floatAudioData: FloatBuffer): Float {
+  private fun run(floatAudioData: FloatBuffer): Float {
     // Prepare input map
     val inputs = mutableMapOf<String, OnnxTensor>()
     baseInputs.toMap(inputs)
@@ -75,25 +107,28 @@ class VoiceActivityDetection(
     session.close()
   }
 
-  companion object {
+  fun startModel(soundFileByteArray: ByteArray) {
+    val floatArray = TensorConvertor.byteArrayToFloatArray(soundFileByteArray)
+    val length = 512
+    var offset = 0
+    while (offset < floatArray.size) {
 
+      val floatBuffer =
+        TensorConvertor.floatArrayToFloatBuffer(offset, length, floatArray) ?: continue
 
-    private const val SAMPLING_RATE = 8000L
-    private const val WINDOW_LENGTH = 64 * (SAMPLING_RATE / 1000)
-//    val windowLength: Long = 0.064 * samplingRate
-
+      val speechScore = run(floatBuffer)
+      Logger.e(
+        """
+        speechScore >> $speechScore
+        $offset / ${floatArray.size}
+      """.trimIndent()
+      )
+      offset += length / 2
+    }
   }
 
-//  private fun createOrtSession(): OrtSession {
-//    val so = OrtSession.SessionOptions()
-//    so.use {
-//      // Set to use 2 intraOp threads for CPU EP
-//      so.setIntraOpNumThreads(2)
-//
-//      if (enableNNAPI)
-//        so.addNnapi()
-//
-//      return env.createSession(modelBytes, so)
-//    }
-//  }
+  companion object {
+    private const val SAMPLING_RATE = 8000L
+    private const val WINDOW_LENGTH = 64 * (SAMPLING_RATE / 1000)
+  }
 }

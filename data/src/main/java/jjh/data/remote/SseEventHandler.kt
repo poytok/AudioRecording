@@ -1,4 +1,4 @@
-package jjh.study.audiorecording.service
+package jjh.data.remote
 
 import com.launchdarkly.eventsource.MessageEvent
 import com.launchdarkly.eventsource.background.BackgroundEventHandler
