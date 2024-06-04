@@ -94,6 +94,8 @@ dependencies {
   // Logger
   implementation(libs.logger)
 
+  // SSE
+  implementation(libs.okhttp.eventsource)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)

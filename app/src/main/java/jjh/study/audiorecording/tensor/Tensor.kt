@@ -113,8 +113,7 @@ class VoiceActivityDetection(
     session.close()
   }
 
-  suspend fun startModel(soundFileByteArray: ByteArray) //= flow {
-  {
+  suspend fun startModel(soundFileByteArray: ByteArray) {
     val floatArray = TensorConvertor.byteArrayToFloatArray(soundFileByteArray)
     val length = 512
     var offset = 0
@@ -126,18 +125,14 @@ class VoiceActivityDetection(
 
       val speechScore = run(floatBuffer)
       offset += length / 2
-//      emit(speechScore)
       mutableList.add(speechScore)
     }
-
-    println("#### >> ${mutableList.joinToString(" ")}")
   }
 
   suspend fun startModel(soundFileByteArray: ShortArray) = flow {
     val floatArray = TensorConvertor.shortArrayToFloatArray(soundFileByteArray)
     val length = 512
     var offset = 0
-    val mutableList = mutableListOf<Float>()
     while (offset < floatArray.size) {
 
       val floatBuffer =
@@ -146,7 +141,6 @@ class VoiceActivityDetection(
       val speechScore = run(floatBuffer)
       offset += length / 2
       emit(speechScore)
-      mutableList.add(speechScore)
     }
   }
 

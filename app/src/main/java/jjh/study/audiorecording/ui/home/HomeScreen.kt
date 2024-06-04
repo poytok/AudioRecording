@@ -1,12 +1,12 @@
 package jjh.study.audiorecording.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,9 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import jjh.study.audiorecording.R
-import jjh.study.audiorecording.ui.main.MainViewModel
 import jjh.study.audiorecording.util.Spacer
 
 
@@ -32,24 +30,16 @@ import jjh.study.audiorecording.util.Spacer
 @Composable
 fun HomeScreen(
   modifier: Modifier = Modifier,
-  mainViewModel: MainViewModel = hiltViewModel(),
+  onClick: () -> Unit = {},
 ) {
 
   Column(
     modifier = modifier.fillMaxSize(),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
+    Button(onClick = onClick) {}
     36.Spacer()
     Image(
-      modifier = Modifier
-        .clickable {
-
-          if (mainViewModel.record.isRecording) {
-            mainViewModel.startRecording()
-          } else {
-            mainViewModel.stopRecording()
-          }
-        },
       painter = painterResource(id = R.drawable.main_logo), contentDescription = "MainLogo"
     )
     72.Spacer()

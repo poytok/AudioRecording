@@ -8,12 +8,12 @@ class SseEventHandler : BackgroundEventHandler {
 
   // SSE 연결 성공시 처리 로직 작성
   override fun onOpen() {
-    Logger.e("onOpen")
+    Logger.e("SseEventHandler onOpen")
   }
 
   // SSE 연결 종료시 처리 로직 작성
   override fun onClosed() {
-    Logger.e("onClosed")
+    Logger.e("SseEventHandler onClosed")
   }
 
 
@@ -26,6 +26,7 @@ class SseEventHandler : BackgroundEventHandler {
   override fun onMessage(event: String?, messageEvent: MessageEvent?) {
     Logger.e(
       """
+      SseEventHandler
       onMessage
       event         : $event
       messageEvent  : $messageEvent
@@ -51,6 +52,7 @@ class SseEventHandler : BackgroundEventHandler {
   override fun onError(t: Throwable?) {
     Logger.e(
       """
+      SseEventHandler
       onError
       t         : $t
     """.trimIndent()

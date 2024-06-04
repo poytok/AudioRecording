@@ -8,7 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
-import jjh.study.audiorecording.tensor.Model
+import jjh.study.audiorecording.ui.theme.AudioRecordingTheme
 
 
 @AndroidEntryPoint
@@ -21,12 +21,14 @@ class MainActivity : ComponentActivity() {
     WindowCompat.setDecorFitsSystemWindows(window, false)
 
     // read sound file
-     val soundFileByteArray = Model.readSoundFile(resources)
-//     model.startModel(soundFileByteArray)
+    // val soundFileByteArray = Model.readSoundFile(resources)
+    // mainViewModel.startModel(soundFileByteArray)
     recordPermission.launch(android.Manifest.permission.RECORD_AUDIO)
 
     setContent {
-      MainScreen(mainViewModel)
+      AudioRecordingTheme {
+        MainScreen(mainViewModel)
+      }
     }
   }
 

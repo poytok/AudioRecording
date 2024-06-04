@@ -3,14 +3,24 @@ package jjh.data.remote
 import com.launchdarkly.eventsource.ConnectStrategy
 import com.launchdarkly.eventsource.EventSource
 import com.launchdarkly.eventsource.background.BackgroundEventSource
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import jjh.data.util.Const
 import java.net.URI
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 object SSE {
 
-  fun test() {
+  @Provides
+  @Singleton
+  fun provideBackgroundEventSource(): BackgroundEventSource {
     val sseEventHandler = SseEventHandler()
-    val baseUrl = "https://d1c4-112-155-175-197.ngrok-free.app"
+    val baseUrl = Const.BASE_URL
     val path = "/analyze/sse"
 
     val eventSourceBuilder = EventSource.Builder(
@@ -21,9 +31,8 @@ object SSE {
         .readTimeout(600, TimeUnit.SECONDS)
     )
 
-    BackgroundEventSource
+    return BackgroundEventSource
       .Builder(sseEventHandler, eventSourceBuilder)
       .build()
-      .start()
   }
 }

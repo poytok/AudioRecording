@@ -10,16 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.orhanobut.logger.Logger
 import jjh.study.audiorecording.R
-import jjh.study.audiorecording.record.Record
 import jjh.study.audiorecording.ui.home.HomeScreen
 
 
 @Preview(showBackground = true)
 @Composable
 fun MainScreen(
-  mainViewModel: MainViewModel = hiltViewModel()
+  mainViewModel: MainViewModel = hiltViewModel(),
 ) {
   Image(
     modifier = Modifier.fillMaxSize(),
@@ -29,8 +28,9 @@ fun MainScreen(
 
   HomeScreen(
     Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
-    mainViewModel
+    onClick = {
+      Logger.e("클릭")
+      mainViewModel.stopRecording()
+    }
   )
-
-
 }

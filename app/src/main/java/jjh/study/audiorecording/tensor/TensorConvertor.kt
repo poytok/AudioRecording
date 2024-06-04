@@ -20,7 +20,7 @@ object TensorConvertor {
 
     `is`.use {
       while (`is`.read(byteArray) != -1) {
-        val readValue = ByteBuffer.wrap(byteArray).order(ByteOrder.BIG_ENDIAN).getFloat()
+        val readValue = ByteBuffer.wrap(byteArray).order(ByteOrder.LITTLE_ENDIAN).getFloat()
         floatArray[index++] = readValue
       }
     }
