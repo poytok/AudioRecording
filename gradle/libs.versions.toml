@@ -22,6 +22,9 @@ retrofit = "2.9.0"
 appcompat = "1.6.1"
 material = "1.12.0"
 jetbrainsKotlinJvm = "1.9.0"
+firebaseBom = "32.8.1"
+playServicesAuth = "21.1.0"
+google = "4.3.15"
 
 
 [libraries]
@@ -53,6 +56,8 @@ onnxruntime-android = { module = "com.microsoft.onnxruntime:onnxruntime-android"
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 
 
 [plugins]
@@ -61,3 +66,4 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 googleDaggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "google" }

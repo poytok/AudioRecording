@@ -3,15 +3,16 @@ plugins {
   alias(libs.plugins.jetbrainsKotlinAndroid)
   id("kotlin-kapt")
   alias(libs.plugins.googleDaggerHilt)
+  alias(libs.plugins.googleServices)
 
 }
 
 android {
-  namespace = "jjh.study.audiorecording"
+  namespace = "jjh.preinterview"
   compileSdk = 34
 
   defaultConfig {
-    applicationId = "jjh.study.audiorecording"
+    applicationId = "jjh.preinterview"
     minSdk = 29
     targetSdk = 34
     versionCode = 1
@@ -96,6 +97,12 @@ dependencies {
 
   // SSE
   implementation(libs.okhttp.eventsource)
+
+  // google login
+  implementation(platform(libs.firebase.bom))
+  //noinspection UseTomlInstead
+  implementation("com.google.firebase:firebase-auth-ktx")
+  implementation(libs.play.services.auth)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
