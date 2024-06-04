@@ -5,10 +5,6 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtLoggingLevel
 import ai.onnxruntime.OrtSession
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.flow
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
@@ -82,28 +78,26 @@ class VoiceActivityDetection(
     baseInputs = mapOf("length" to createLongTensor(env, longArrayOf(WINDOW_LENGTH), tensorShape(1)))
   }
 
+  // Speech Score 모델 Run
+  private fun run(floatAudioData: FloatBuffer): Float {
+    // Prepare input map
+    val inputs = mutableMapOf<String, OnnxTensor>()
+    baseInputs.toMap(inputs)
 
-  private suspend fun run(floatAudioData: FloatBuffer): Float {
-    return CoroutineScope(Dispatchers.IO).async {
-      // Prepare input map
-      val inputs = mutableMapOf<String, OnnxTensor>()
-      baseInputs.toMap(inputs)
-
-      val floatAudioTensor = OnnxTensor.createTensor(env, floatAudioData, tensorShape(1, 512))
-      inputs["wav"] = floatAudioTensor
+    val floatAudioTensor = OnnxTensor.createTensor(env, floatAudioData, tensorShape(1, 512))
+    inputs["wav"] = floatAudioTensor
 
 
-      // Run inference
-      val outputs = session.run(inputs)
+    // Run inference
+    val outputs = session.run(inputs)
 
-      // Parse outputs
-      val speechScore = outputs.use {
-        @Suppress("UNCHECKED_CAST")
-        (it[1].value as Array<FloatArray>)[0][0]
-      }
+    // Parse outputs
+    val speechScore = outputs.use {
+      @Suppress("UNCHECKED_CAST")
+      (it[1].value as Array<FloatArray>)[0][0]
+    }
 
-      speechScore
-    }.await()
+    return speechScore
   }
 
   override fun close() {
@@ -113,35 +107,42 @@ class VoiceActivityDetection(
     session.close()
   }
 
-  suspend fun startModel(soundFileByteArray: ByteArray) {
-    val floatArray = TensorConvertor.byteArrayToFloatArray(soundFileByteArray)
+//  fun startModel(soundFileByteArray: ByteArray) {
+//    val floatArray = TensorConvertor.byteArrayToFloatArray(soundFileByteArray)
+//    val length = 512
+//    var offset = 0
+//    val mutableList = mutableListOf<Float>()
+//    while (offset < floatArray.size) {
+//
+//      val floatBuffer =
+//        TensorConvertor.floatArrayToFloatBuffer(offset, length, floatArray) ?: continue
+//
+//      val speechScore = run(floatBuffer)
+//      offset += length / 2
+//      mutableList.add(speechScore)
+//    }
+//  }
+
+  fun startModel(floatArray: FloatArray): FloatArray {
+    val speechScoreArray = FloatArray(floatArray.size)
+
     val length = 512
     var offset = 0
-    val mutableList = mutableListOf<Float>()
+    var index = 0
+
+    // 512 크기로 잘라서 모델에 run
     while (offset < floatArray.size) {
 
       val floatBuffer =
         TensorConvertor.floatArrayToFloatBuffer(offset, length, floatArray) ?: continue
 
-      val speechScore = run(floatBuffer)
       offset += length / 2
-      mutableList.add(speechScore)
-    }
-  }
-
-  suspend fun startModel(soundFileByteArray: ShortArray) = flow {
-    val floatArray = TensorConvertor.shortArrayToFloatArray(soundFileByteArray)
-    val length = 512
-    var offset = 0
-    while (offset < floatArray.size) {
-
-      val floatBuffer =
-        TensorConvertor.floatArrayToFloatBuffer(offset, length, floatArray) ?: continue
 
       val speechScore = run(floatBuffer)
-      offset += length / 2
-      emit(speechScore)
+      speechScoreArray[index++] = speechScore
     }
+
+    return speechScoreArray
   }
 
   companion object {

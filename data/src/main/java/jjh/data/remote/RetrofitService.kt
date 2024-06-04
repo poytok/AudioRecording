@@ -8,5 +8,5 @@ interface RetrofitService {
   @POST("/analyze")
   suspend fun test(
     @Body map: HashMap<String, Any>?,
-  ): Unit
+  )
 }

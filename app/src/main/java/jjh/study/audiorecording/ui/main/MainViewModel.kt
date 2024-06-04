@@ -39,16 +39,16 @@ class MainViewModel @Inject constructor(
   }
 
   // 파일로 실행
-  fun startModel(soundFileByteArray: ByteArray) {
-    viewModelScope.launch {
-      model.startModel(soundFileByteArray)
-    }
-  }
+//  fun startModel(soundFileByteArray: ByteArray) {
+//    viewModelScope.launch {
+//      model.startModel(soundFileByteArray)
+//    }
+//  }
 
   // 녹음으로 실행
   fun startRecording() {
     viewModelScope.launch(Dispatchers.IO) {
-      record.startRecording(viewModelScope)
+      record.startRecording()
     }
   }
 

@@ -3,14 +3,10 @@ package jjh.study.audiorecording.record
 import android.annotation.SuppressLint
 import android.media.AudioRecord
 import android.media.MediaRecorder
-import android.util.Log
-import com.orhanobut.logger.Logger
 import jjh.study.audiorecording.tensor.TensorConvertor
 import jjh.study.audiorecording.tensor.VoiceActivityDetection
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Record(
   private val model: VoiceActivityDetection,
@@ -37,9 +33,7 @@ class Record(
 
   val data = mutableListOf<Float>()
 
-  suspend fun startRecording(
-    viewModelScope: CoroutineScope,
-  ) {
+  suspend fun startRecording() {
     if (audioRecord == null)
       setAudioRecord()
 
@@ -47,22 +41,21 @@ class Record(
     audioRecord?.startRecording()
 
     val shortArray = ShortArray(8000)
-    while (isRecording) {
-      val bytesRead = audioRecord?.read(shortArray, 0, shortArray.size) ?: 0
-      if (bytesRead > 0) {
-        Log.d("AudioCapture", "Received audio data: ${shortArray.joinToString(" ")}")
-        val floatArray = TensorConvertor.shortArrayToFloatArray(shortArray).toTypedArray()
-        viewModelScope.launch(Dispatchers.Default) {
-          data.addAll(floatArray)
-        }
+    while (isRecording) { // 녹음 중 일 때 루프가 돈다
+      withContext(Dispatchers.Default) {
+        // 녹음된 데이터를 short 타입으로 변경
+        val bytesRead = audioRecord?.read(shortArray, 0, shortArray.size) ?: 0
+        if (bytesRead > 0) {
+          // PCM데이터 리스트 저장용
+          val floatArray = TensorConvertor.shortArrayToFloatArray(shortArray)
 
-        model.startModel(shortArray)
-          .stateIn(viewModelScope)
-          .collect {
-            if (it > 0.5f) {
-              Logger.e("$it >> ${shortArray.joinToString(" ")}")
-            }
-          }
+          model.startModel(floatArray)
+
+          // 녹음된 PCM Data
+          data.addAll(floatArray.toTypedArray())
+        }
+        // Speech Score List
+
       }
     }
   }
