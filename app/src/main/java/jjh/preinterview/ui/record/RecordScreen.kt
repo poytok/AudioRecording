@@ -1,4 +1,4 @@
-package jjh.preinterview.audiorecording.ui.record
+package jjh.preinterview.ui.record
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import jjh.preinterview.R
-import jjh.preinterview.audiorecording.ui.theme.AudioRecordingTheme
+import jjh.preinterview.ui.theme.AudioRecordingTheme
 import jjh.preinterview.util.BaseButton
 
 @Composable

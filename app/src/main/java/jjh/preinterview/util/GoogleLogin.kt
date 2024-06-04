@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.orhanobut.logger.Logger
+import jjh.preinterview.R
 import kotlinx.coroutines.tasks.await
 
 class GoogleLogin(private val context: Context) {
@@ -28,7 +29,7 @@ class GoogleLogin(private val context: Context) {
     // Google 로그인을 앱에 통합
     // GoogleSignInOptions 개체를 구성할 때 requestIdToken을 호출
     val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//      .requestIdToken(context.getString(R.string.default_web_client_id))
+      .requestIdToken(context.getString(R.string.default_web_client_id))
       .requestEmail()
       .build()
 
@@ -62,7 +63,7 @@ class GoogleLogin(private val context: Context) {
   /* 사용자 정보 가져오기 */
   suspend fun handleSignInResult(completedTask: Task<GoogleSignInAccount>): String? {
     return runCatching {
-      val acct = completedTask.getResult(ApiException::class.java)
+      val acct = completedTask.await() // r.getResult(ApiException::class.java)
       if (acct != null) {
         firebaseAuthWithGoogle(acct.idToken)
       } else {
@@ -74,10 +75,10 @@ class GoogleLogin(private val context: Context) {
       if (it is ApiException) {
         Logger.e("signInResult:failed code=" + it.statusCode)
       }
+      it.printStackTrace()
     }.getOrNull()
   }
 
-  // [START auth_with_google]
   private suspend fun firebaseAuthWithGoogle(idToken: String?): String? {
     val credential = GoogleAuthProvider.getCredential(idToken, null)
     val authResult = mAuth.signInWithCredential(credential).await()

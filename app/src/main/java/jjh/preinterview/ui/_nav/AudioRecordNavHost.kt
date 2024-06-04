@@ -1,4 +1,4 @@
-package jjh.preinterview.audiorecording.ui._nav
+package jjh.preinterview.ui._nav
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,9 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.orhanobut.logger.Logger
-import jjh.preinterview.audiorecording.ui.home.HomeScreen
-import jjh.preinterview.audiorecording.ui.login.LoginScreen
-import jjh.preinterview.audiorecording.ui.record.RecordScreen
+import jjh.preinterview.ui.home.HomeScreen
+import jjh.preinterview.ui.login.LoginScreen
+import jjh.preinterview.ui.record.RecordScreen
 import jjh.preinterview.ui._nav.Screens
 import jjh.preinterview.ui.main.MainViewModel
 import jjh.preinterview.ui.select_question.SelectQuestionScreen

@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException
 import com.orhanobut.logger.Logger
 import okhttp3.logging.HttpLoggingInterceptor
 
+@Suppress("DEPRECATION")
 class NetworkLogger : HttpLoggingInterceptor.Logger {
   override fun log(message: String) {
     if (message.startsWith("{") || message.startsWith("[")) {

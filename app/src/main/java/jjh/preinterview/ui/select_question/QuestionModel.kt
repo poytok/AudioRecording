@@ -1,4 +1,4 @@
-package jjh.preinterview.audiorecording.ui.select_question
+package jjh.preinterview.ui.select_question
 
 data class QuestionModel(
   val title: String,

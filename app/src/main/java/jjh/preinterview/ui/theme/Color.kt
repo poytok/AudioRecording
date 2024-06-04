@@ -1,4 +1,4 @@
-package jjh.preinterview.audiorecording.ui.theme
+package jjh.preinterview.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

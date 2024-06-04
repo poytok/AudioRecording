@@ -1,4 +1,4 @@
-package jjh.preinterview.audiorecording.ui.theme
+package jjh.preinterview.ui.theme
 
 import android.app.Activity
 import android.os.Build

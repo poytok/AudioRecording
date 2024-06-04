@@ -8,9 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.launchdarkly.eventsource.background.BackgroundEventSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jjh.data.remote.RetrofitService
-import jjh.preinterview.audiorecording.ui.select_question.QuestionModel
-import jjh.preinterview.audiorecording.ui.select_question.questionList
+import jjh.preinterview.record.Record
 import jjh.preinterview.tensor.VoiceActivityDetection
+import jjh.preinterview.ui.select_question.QuestionModel
+import jjh.preinterview.ui.select_question.questionList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,10 +25,10 @@ class MainViewModel @Inject constructor(
   var state by mutableStateOf<List<QuestionModel>>(listOf())
     private set
 
-  private val record by lazy { jjh.preinterview.record.Record(model) }
+  private val record by lazy { Record(model) }
 
   init {
-    backgroundEventSource.start()
+//    backgroundEventSource.start()
     state = questionList
 
 

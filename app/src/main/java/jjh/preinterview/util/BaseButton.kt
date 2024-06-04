@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import jjh.preinterview.R
-import jjh.study.audiorecording.R
 
 @SuppressLint("NewApi")
 @Composable

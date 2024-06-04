@@ -17,7 +17,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import jjh.preinterview.R
-import jjh.preinterview.audiorecording.ui._nav.AudioRecordNavHost
+import jjh.preinterview.ui._nav.AudioRecordNavHost
 import jjh.preinterview.ui._nav.Screens
 
 

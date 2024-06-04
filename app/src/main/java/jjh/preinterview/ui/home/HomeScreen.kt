@@ -1,4 +1,4 @@
-package jjh.preinterview.audiorecording.ui.home
+package jjh.preinterview.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
