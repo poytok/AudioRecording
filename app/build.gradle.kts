@@ -82,7 +82,7 @@ dependencies {
   implementation(libs.androidx.navigation.compose)
 
   // ONNX
-  implementation (libs.onnxruntime.android)
+  implementation(libs.onnxruntime.android)
 //  implementation ("com.microsoft.onnxruntime:onnxruntime-extensions-android:latest.release")
 
 
@@ -108,6 +108,9 @@ dependencies {
   //noinspection UseTomlInstead
   implementation("com.google.firebase:firebase-auth-ktx")
   implementation(libs.play.services.auth)
+
+  debugImplementation("androidx.customview:customview:1.2.0-alpha02")
+  debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)

@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
           modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
           navHostController = navController,
           startDestination = Screens.LOGIN_SCREEN.name,
-          mainViewModel = mainViewModel
         )
 //      }
     }

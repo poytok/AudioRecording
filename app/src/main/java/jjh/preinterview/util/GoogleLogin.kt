@@ -64,11 +64,9 @@ class GoogleLogin(private val context: Context) {
   suspend fun handleSignInResult(completedTask: Task<GoogleSignInAccount>): String? {
     return runCatching {
       val acct = completedTask.await() // r.getResult(ApiException::class.java)
-      if (acct != null) {
-        firebaseAuthWithGoogle(acct.idToken)
-      } else {
-        throw IllegalArgumentException("GoogleSignInAccount(acct) is Null")
-      }
+      val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+      val authResult = mAuth.signInWithCredential(credential).await()
+      authResult.user?.getIdToken(false)?.await()?.token
     }.onFailure {
       // The ApiException status code indicates the detailed failure reason.
       // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -79,12 +77,12 @@ class GoogleLogin(private val context: Context) {
     }.getOrNull()
   }
 
-  private suspend fun firebaseAuthWithGoogle(idToken: String?): String? {
-    val credential = GoogleAuthProvider.getCredential(idToken, null)
-    val authResult = mAuth.signInWithCredential(credential).await()
-    val token = authResult.user?.getIdToken(false)?.await()
-    return token?.token
-  }
+//  private suspend fun firebaseAuthWithGoogle(idToken: String?): String? {
+//    val credential = GoogleAuthProvider.getCredential(idToken, null)
+//    val authResult = mAuth.signInWithCredential(credential).await()
+//    val token = authResult.user?.getIdToken(false)?.await()
+//    return token?.token
+//  }
 
   fun setLogout() {
     mGoogleSignInClient?.signOut()
