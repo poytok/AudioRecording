@@ -1,6 +1,5 @@
 package jjh.preinterview.ui.login
 
-import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -118,7 +117,7 @@ fun LoginScreen(
     ) {
 
       val onGoogleLoginClickListener = {
-        val intent = googleLogin.getStartIntent() ?: Intent()
+        val intent = googleLogin.getStartIntent()
         startGoogleLogin.launch(intent)
       }
       GoogleLogin(onGoogleLoginClickListener)

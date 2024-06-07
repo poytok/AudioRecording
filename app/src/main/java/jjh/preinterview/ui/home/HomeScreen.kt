@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -48,39 +49,50 @@ fun HomeScreen(
 ) {
   val state = homeViewModel.homeUiState.value
   val scrollState = rememberScrollState()
+  val bottomHeight = 52.dp
 
-  Column(
-    modifier = Modifier
-      .fillMaxSize()
-      .verticalScroll(scrollState)
-      .padding(bottom = WindowInsets.safeDrawing.getBottom(density = LocalDensity.current).dp),
-    horizontalAlignment = Alignment.CenterHorizontally,
-  ) {
-    80.Spacer()
-    Image(
-      painter = painterResource(id = R.drawable.main_logo),
-      contentDescription = "MainLogo",
-    )
-    72.Spacer()
+  Box {
+    Column(
+      modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(scrollState)
+        .padding(bottom = WindowInsets.safeDrawing.getBottom(density = LocalDensity.current).dp + bottomHeight),
+      horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+      80.Spacer()
+      Image(
+        painter = painterResource(id = R.drawable.main_logo),
+        contentDescription = "MainLogo",
+      )
+      72.Spacer()
 
 
-    InterviewQuestion(
-      selectedOccupationalString = state.selectedOccupational.string
-    ) // 면접질문 Row
+      InterviewQuestion(
+        selectedOccupationalString = state.selectedOccupational.string
+      ) // 면접질문 Row
 
-    15.Spacer()
+      15.Spacer()
 
-    QuestionList(
-      modifier = modifier,
-      questionTitles = state.questionTitles,
-      selectedTitle = state.selectedQuestion,
-      onClick = { homeViewModel.setQuestion(it) }
-    ) // 기본, 경험, 가치관, 상황
+      QuestionList(
+        modifier = modifier,
+        questionTitles = state.questionTitles,
+        selectedTitle = state.selectedQuestion,
+        onClick = { homeViewModel.setQuestion(it) }
+      ) // 기본, 경험, 가치관, 상황
 //
-    QuestionContentList(
-      modifier = Modifier.padding(horizontal = 24.dp),
-      questions = state.questionTitles,
-      questionContent = state.questionContentList
+      QuestionContentList(
+        modifier = Modifier.padding(horizontal = 24.dp),
+        questions = state.questionTitles,
+        questionContent = state.questionContentList
+      )
+    }
+
+    BottomButton(
+      Modifier
+        .fillMaxWidth()
+        .align(Alignment.BottomCenter)
+        .padding(horizontal = 24.dp)
+        .padding(bottom = 16.dp)
     )
   }
 }
@@ -257,6 +269,55 @@ fun QuestionContent(
       modifier = Modifier
         .padding(horizontal = 20.dp, vertical = 16.dp),
       text = questionContent,
+    )
+  }
+}
+
+@Composable
+fun BottomButton(modifier: Modifier = Modifier) {
+  Row(
+    modifier = modifier
+  ) {
+    Text(
+      modifier = Modifier
+        .weight(96f)
+        .background(
+          shape = RoundedCornerShape(8.dp),
+          brush = Brush.horizontalGradient(colors = listOf(Color(0xff3F99CB), Color(0xff0064F2)))
+        )
+        .padding(vertical = 14.dp),
+      text = "랜덤 1개 연습",
+      style = TextStyle(
+        fontFamily = FontFamily(Font(R.font.spoqa_han_sans_neo_bold)),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.W700,
+        lineHeight = 23.76.sp,
+        letterSpacing = (-0.05).em,
+        textAlign = TextAlign.Center,
+        color = Color.White
+      )
+    )
+
+    4.Spacer(modifier = Modifier.weight(4f))
+
+    Text(
+      modifier = Modifier
+        .weight(96f)
+        .background(
+          shape = RoundedCornerShape(8.dp),
+          brush = Brush.horizontalGradient(colors = listOf(Color(0xff0064F2), Color(0xffF496BD)))
+        )
+        .padding(vertical = 14.dp),
+      text = "선택 N개 연습",
+      style = TextStyle(
+        fontFamily = FontFamily(Font(R.font.spoqa_han_sans_neo_bold)),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.W700,
+        lineHeight = 23.76.sp,
+        letterSpacing = (-0.05).em,
+        textAlign = TextAlign.Center,
+        color = Color.White
+      )
     )
   }
 }

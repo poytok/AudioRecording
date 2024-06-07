@@ -33,20 +33,17 @@ class MainActivity : ComponentActivity() {
     setContent {
       val navController = rememberNavController()
 
-//      AudioRecordingTheme {
-        // Background
-        Image(
-          modifier = Modifier.fillMaxSize(),
-          painter = painterResource(id = R.drawable.background),
-          contentDescription = "background"
-        )
+      Image(
+        modifier = Modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.background),
+        contentDescription = "background"
+      ) // background image
 
-        AudioRecordNavHost(
-          modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
-          navHostController = navController,
-          startDestination = Screens.LOGIN_SCREEN.name,
-        )
-//      }
+      AudioRecordNavHost(
+        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
+        navHostController = navController,
+        startDestination = Screens.LOGIN_SCREEN.name,
+      )
     }
   }
 

@@ -14,15 +14,10 @@ import com.orhanobut.logger.Logger
 import jjh.preinterview.R
 import kotlinx.coroutines.tasks.await
 
+@Suppress("deprecation")
 class GoogleLogin(private val context: Context) {
-  companion object {
 
-    fun isLogin(context: Context): Boolean {
-      return GoogleSignIn.getLastSignedInAccount(context) != null
-    }
-  }
-
-  private var mGoogleSignInClient: GoogleSignInClient? = null
+  private var mGoogleSignInClient: GoogleSignInClient
   private val mAuth = FirebaseAuth.getInstance()
 
   init {
@@ -37,7 +32,7 @@ class GoogleLogin(private val context: Context) {
   }
 
 
-  fun getStartIntent(): Intent? = mGoogleSignInClient?.signInIntent
+  fun getStartIntent(): Intent = mGoogleSignInClient.signInIntent
 
   fun getLoginData(): String {
     val account = GoogleSignIn.getLastSignedInAccount(context)?.account
@@ -85,6 +80,12 @@ class GoogleLogin(private val context: Context) {
 //  }
 
   fun setLogout() {
-    mGoogleSignInClient?.signOut()
+    mGoogleSignInClient.signOut()
+  }
+  companion object {
+
+    fun isLogin(context: Context): Boolean {
+      return GoogleSignIn.getLastSignedInAccount(context) != null
+    }
   }
 }

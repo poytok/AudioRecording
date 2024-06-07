@@ -11,8 +11,8 @@ fun Double.Spacer() {
 }
 
 @Composable
-fun Int.Spacer() {
-  androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(this.dp))
+fun Int.Spacer(modifier: Modifier = Modifier) {
+  androidx.compose.foundation.layout.Spacer(modifier = modifier.height(this.dp))
 }
 
 @Composable

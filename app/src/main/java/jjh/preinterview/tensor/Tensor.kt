@@ -5,27 +5,11 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtLoggingLevel
 import ai.onnxruntime.OrtSession
+import jjh.preinterview.tensor.CreateTensor.createLongTensor
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
-import java.nio.IntBuffer
-import java.nio.LongBuffer
 
-private fun createIntTensor(env: OrtEnvironment, data: IntArray, shape: LongArray): OnnxTensor {
-  return OnnxTensor.createTensor(env, IntBuffer.wrap(data), shape)
-}
-
-private fun createLongTensor(env: OrtEnvironment, data: LongArray, shape: LongArray): OnnxTensor {
-  return OnnxTensor.createTensor(env, LongBuffer.wrap(data), shape)
-}
-
-private fun createFloatTensor(
-  env: OrtEnvironment,
-  data: FloatArray,
-  shape: LongArray,
-): OnnxTensor {
-  return OnnxTensor.createTensor(env, FloatBuffer.wrap(data), shape)
-}
 
 private fun tensorShape(vararg dims: Long) = longArrayOf(*dims)
 
@@ -78,7 +62,6 @@ class VoiceActivityDetection(
     baseInputs = mapOf("length" to createLongTensor(env, longArrayOf(WINDOW_LENGTH), tensorShape(1)))
   }
 
-  // Speech Score 모델 Run
   private fun run(floatAudioData: FloatBuffer): Float {
     // Prepare input map
     val inputs = mutableMapOf<String, OnnxTensor>()
@@ -101,12 +84,11 @@ class VoiceActivityDetection(
   }
 
   override fun close() {
-    baseInputs.values.forEach {
-      it.close()
-    }
+    baseInputs.values.forEach { it.close() }
     session.close()
   }
 
+  // wav file start model
 //  fun startModel(soundFileByteArray: ByteArray) {
 //    val floatArray = TensorConvertor.byteArrayToFloatArray(soundFileByteArray)
 //    val length = 512
