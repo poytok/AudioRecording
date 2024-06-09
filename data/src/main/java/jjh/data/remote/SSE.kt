@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jjh.data.util.Const
+import jjh.data.util.Urls.BASE_URL
 import java.net.URI
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -20,7 +20,7 @@ object SSE {
   @Singleton
   fun provideBackgroundEventSource(): BackgroundEventSource {
     val sseEventHandler = SseEventHandler()
-    val baseUrl = Const.BASE_URL
+    val baseUrl = BASE_URL
     val path = "/analyze/sse"
 
     val eventSourceBuilder = EventSource.Builder(

@@ -6,19 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import jjh.preinterview.R
 import jjh.preinterview.ui._nav.AudioRecordNavHost
-import jjh.preinterview.ui._nav.Screens
+import jjh.preinterview.ui._nav.MainScreens
 
 
 @AndroidEntryPoint
@@ -32,17 +28,10 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       val navController = rememberNavController()
-
-      Image(
-        modifier = Modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.background),
-        contentDescription = "background"
-      ) // background image
-
       AudioRecordNavHost(
         modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
         navHostController = navController,
-        startDestination = Screens.LOGIN_SCREEN.name,
+        startDestination = MainScreens.LOGIN_SCREEN.name,
       )
     }
   }

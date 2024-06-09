@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import jjh.preinterview.R
 import jjh.preinterview.util.GoogleLogin
@@ -42,6 +43,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
   startMainView: () -> Unit,
+  startSignupView: (String?) -> Unit,
+  loginViewModel: LoginViewModel = hiltViewModel(),
 ) {
   val context = LocalContext.current
   val googleLogin = GoogleLogin(context)
@@ -100,12 +103,23 @@ fun LoginScreen(
       coroutineScope.launch {
         val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
         val token = googleLogin.handleSignInResult(task)
+        val userId = googleLogin.getUserId()
 
-        if (token == null) {
+        if (
+//          token == null ||
+          userId == null
+          ) {
           rememberGoogleLogin = true
           return@launch
         }
-        startMainView()
+
+        val loginSuccess = loginViewModel.startLogin(userId)
+
+        if (loginSuccess) {
+          startMainView()
+        } else {
+          startSignupView(googleLogin.getUserId())
+        }
       }
     } // startGoogleLogin
 

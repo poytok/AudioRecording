@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import jjh.preinterview.R
 import jjh.preinterview.util.DrawableDirection
 import jjh.preinterview.util.DrawableText
@@ -45,7 +46,7 @@ import jjh.preinterview.util.drawColoredShadow
 @Composable
 fun HomeScreen(
   modifier: Modifier = Modifier,
-  homeViewModel: HomeViewModel,
+  homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
   val state = homeViewModel.homeUiState.value
   val scrollState = rememberScrollState()
@@ -61,6 +62,8 @@ fun HomeScreen(
     ) {
       80.Spacer()
       Image(
+        modifier = Modifier
+          .clickable { homeViewModel.getUsername() },
         painter = painterResource(id = R.drawable.main_logo),
         contentDescription = "MainLogo",
       )
@@ -326,5 +329,5 @@ fun BottomButton(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-  HomeScreen(homeViewModel = HomeViewModel())
+  HomeScreen()
 }

@@ -109,6 +109,10 @@ dependencies {
   implementation("com.google.firebase:firebase-auth-ktx")
   implementation(libs.play.services.auth)
 
+  // Datastore
+  implementation(libs.androidx.datastore.preferences)
+
+
   debugImplementation("androidx.customview:customview:1.2.0-alpha02")
   debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
 

@@ -29,10 +29,18 @@ class GoogleLogin(private val context: Context) {
       .build()
 
     mGoogleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
+
+    if (isLogin(context)) {
+      setLogout()
+    }
   }
 
 
   fun getStartIntent(): Intent = mGoogleSignInClient.signInIntent
+
+  fun getUserId(): String? {
+    return GoogleSignIn.getLastSignedInAccount(context)?.id
+  }
 
   fun getLoginData(): String {
     val account = GoogleSignIn.getLastSignedInAccount(context)?.account
@@ -46,7 +54,7 @@ class GoogleLogin(private val context: Context) {
     return """
       account           >> $account
       id                >> $id
-      idToken           >> $idToken
+      idToken           >> $"idToken"
       email             >> $email
       displayName       >> $displayName
       familyName        >> $familyName
@@ -54,13 +62,13 @@ class GoogleLogin(private val context: Context) {
     """.trimIndent()
   }
 
-
   /* 사용자 정보 가져오기 */
   suspend fun handleSignInResult(completedTask: Task<GoogleSignInAccount>): String? {
     return runCatching {
       val acct = completedTask.await() // r.getResult(ApiException::class.java)
       val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
       val authResult = mAuth.signInWithCredential(credential).await()
+      Logger.e("${getLoginData()}")
       authResult.user?.getIdToken(false)?.await()?.token
     }.onFailure {
       // The ApiException status code indicates the detailed failure reason.
@@ -82,10 +90,15 @@ class GoogleLogin(private val context: Context) {
   fun setLogout() {
     mGoogleSignInClient.signOut()
   }
+
   companion object {
 
     fun isLogin(context: Context): Boolean {
       return GoogleSignIn.getLastSignedInAccount(context) != null
+    }
+
+    fun getGoogleSignInAccount(context: Context): GoogleSignInAccount? {
+      return GoogleSignIn.getLastSignedInAccount(context)
     }
   }
 }
