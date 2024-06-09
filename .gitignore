@@ -2,6 +2,14 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,kotlin,androidstudio
 
 ### Android ###
+
+# Data / Remote
+**/data/remote/
+data/src/main/java/jjh/data/util/Urls.kt
+
+
+
+
 # Gradle files
 .gradle/
 build/
