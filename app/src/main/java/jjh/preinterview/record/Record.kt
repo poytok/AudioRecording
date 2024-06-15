@@ -8,11 +8,8 @@ import jjh.preinterview.tensor.VoiceActivityDetection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class Record(
-  private val model: VoiceActivityDetection,
-) {
+class Record(private val model: VoiceActivityDetection, ) {
   private var audioRecord: AudioRecord? = null
-
   private var isRecording = false
 
   init {
@@ -21,6 +18,7 @@ class Record(
 
   @SuppressLint("MissingPermission")
   private fun setAudioRecord() {
+
     audioRecord = AudioRecord(
       MediaRecorder.AudioSource.MIC,
       RecordSetting.SAMPLE_RATE_IN_HZ,

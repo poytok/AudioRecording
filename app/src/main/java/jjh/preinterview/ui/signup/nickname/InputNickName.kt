@@ -42,10 +42,9 @@ fun InputNicknameScreen(
   modifier: Modifier = Modifier,
   signupViewModel: SignupViewModel = hiltViewModel(),
   onNextButtonClick: () -> Unit = {},
-  userId: String?,
 ) {
   val state = signupViewModel.state
-  
+
   Column(
     modifier = modifier
       .fillMaxSize()
@@ -68,9 +67,7 @@ fun InputNicknameScreen(
     BottomButton(
       isEnabled = state.nickname.isNotEmpty(),
       onNextButtonClick = {
-        val id = userId ?: throw NullPointerException("Google id is Null")
-
-        signupViewModel.startSignup(id)
+        onNextButtonClick()
       }
     )
   }
@@ -223,7 +220,7 @@ private fun BottomButton(
 @Preview(showBackground = true)
 @Composable
 private fun InputNickNameScreenPreview() {
-  InputNicknameScreen(userId = "")
+  InputNicknameScreen()
 }
 
 @Preview(showBackground = true)
@@ -237,4 +234,13 @@ private fun TitlePreview() {
 @Composable
 fun NicknameInputPreview(modifier: Modifier = Modifier) {
   NicknameInput()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BottomButtonPreview() {
+  Column {
+    BottomButton(isEnabled = true)
+    BottomButton(isEnabled = false)
+  }
 }

@@ -18,6 +18,9 @@ class SignupViewModel @Inject constructor(
   var state by mutableStateOf(SignupUiState())
     private set
 
+  fun setUserId(userId: String?) {
+    state = state.copy(userId = userId ?: "")
+  }
 
   fun setNickname(nickname: String) {
     val maxLength = nickname.length.coerceAtMost(12)

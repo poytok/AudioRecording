@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import jjh.preinterview.R
 import jjh.preinterview.ui._nav.SignupNavHost
@@ -36,6 +37,7 @@ fun SignupScreen(
   userId: String? = null,
 ) {
   val navHostController = rememberNavController()
+  val viewModel: SignupViewModel = hiltViewModel()
 
   Column(
     modifier = modifier
@@ -46,7 +48,7 @@ fun SignupScreen(
     SignupNavHost(
       navHostController = navHostController,
       startDestination = SignupScreens.INPUT_NICKNAME.name,
-      userId = userId,
+      signupViewModel = viewModel,
     )
   }
 }
